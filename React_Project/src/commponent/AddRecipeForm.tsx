@@ -6,16 +6,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { array, string } from 'yup';
-import { RecipeForm, recipeStore } from './store/recipeStore';
+import {RecipeForm, recipeStore} from './store/RecipeStore';
+
+// const schema = yup.object().shape({
+//     title: yup.string().required('Title is required'),
+//     description: yup.string().required('Description is required'),
+//     ingredients: array()
+//         .of(string().required('Ingredient is required'))
+//         .required('Ingredients list is required')
+//         .min(1, 'At least one ingredient is required'),
+//     instructions: yup.string().required('Instructions are required'),
+// });
 
 const schema = yup.object().shape({
     title: yup.string().required('Title is required'),
     description: yup.string().required('Description is required'),
-    ingredients: array()
-        .of(string().required('Ingredient is required'))
-        .required('Ingredients list is required')
-        .min(1, 'At least one ingredient is required'),
+    ingredients: yup.array()
+        .of(
+            yup.object().shape({
+                value: yup.string().required('Ingredient is required'),
+            })
+        )
+        .min(1, 'At least one ingredient is required')
+        .required('Ingredients list is required'),
     instructions: yup.string().required('Instructions are required'),
 });
 
@@ -23,11 +36,11 @@ const AddRecipeForm = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm<RecipeForm>({
         resolver: yupResolver(schema),
     });
-
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove } = useFieldArray<RecipeForm>({
         control,
         name: 'ingredients',
     });
+
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [state] = useContext(UserContext);
@@ -76,7 +89,7 @@ const AddRecipeForm = () => {
             />
 
             <Box sx={{ width: '100%', marginBottom: '16px' }}>
-                {fields.map((item, index) => (
+                {/* {fields.map((item, index) => (
                     <div key={item.id} style={{ position: "relative" }}>
                         <TextField
                             label="Ingredient"
@@ -97,7 +110,30 @@ const AddRecipeForm = () => {
                 ))}
                 <Button type="button" onClick={() => append('')} sx={{ marginTop: '8px' }}>
                     <AddIcon /> Add Ingredient
+                </Button> */}
+                {fields.map((item, index) => (
+                    <div key={item.id} style={{ position: "relative" }}>
+                        <TextField
+                            label="Ingredient"
+                            variant="outlined"
+                            {...register(`ingredients.${index}.value` as const)}
+                            error={!!errors.ingredients?.[index]?.value}
+                            helperText={errors.ingredients?.[index]?.value?.message}
+                            sx={{ marginBottom: '16px', width: '100%' }}
+                        />
+                        <Button
+                            type="button"
+                            onClick={() => remove(index)}
+                            sx={{ position: "absolute", top: 0, right: 0 }}
+                        >
+                            <DeleteIcon />
+                        </Button>
+                    </div>
+                ))}
+                <Button type="button" onClick={() => append({ value: '' })} sx={{ marginTop: '8px' }}>
+                    <AddIcon /> Add Ingredient
                 </Button>
+
                 {errors.ingredients && <span>{errors.ingredients.message}</span>}
             </Box>
             <TextField

@@ -1,5 +1,5 @@
 import { Box, Typography, Card } from '@mui/material';
-import { Recipe } from './store/recipeStore';
+import { Recipe } from './store/RecipeStore';
 
 const RecipeDetails = ({ recipe }: { recipe: Recipe }) => {
   return (
@@ -9,7 +9,7 @@ const RecipeDetails = ({ recipe }: { recipe: Recipe }) => {
         <Typography variant="body1" sx={{ marginBottom: '16px' }}>{recipe.description}</Typography>
         {recipe.ingredients.length > 0 && <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#1976d2', marginBottom: '8px' }}>Ingredients:</Typography>}
         {recipe.ingredients.map((ingredient, index) => (
-          <Typography key={index} variant="body2" sx={{ color: '#424242' }}>{ingredient}</Typography>
+          <Typography key={index} variant="body2" sx={{ color: '#424242' }}>{ingredient.value}</Typography>
         ))}
         {recipe.instructions && <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#1976d2', marginTop: '16px' }}>Instructions:</Typography>}
         {recipe.instructions && <Typography variant="body2" sx={{ color: '#424242' }}>{recipe.instructions}</Typography>}

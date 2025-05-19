@@ -1,21 +1,20 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
-
 export type Recipe = {
-    id: number,
-    title: string,
-    description: string,
-    ingredients: string[],
-    instructions: string,
-    authorId: number,
-}
+    id: number;
+    title: string;
+    description: string;
+    ingredients: { value: string }[]; // שונה ממערך string רגיל
+    instructions: string;
+    authorId: number;
+};
 export type RecipeForm = Omit<Recipe, 'id' | 'authorId'>;
 
 export const initionalRecipe: Recipe = {
     id: 0,
     title: 'my recipe',
     description: 'my description',
-    ingredients: ["all", "of", "my", "ingredients"],
+    ingredients: [{ value: "all" }, { value: "of" }, { value: "my" }, { value: "ingredients" }],
     authorId: -1,
     instructions: 'my instructions',
 }

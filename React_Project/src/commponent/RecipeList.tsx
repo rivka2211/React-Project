@@ -5,7 +5,7 @@ import {
   Typography,
   Paper
 } from "@mui/material";
-import { initionalRecipe, Recipe, recipeStore } from './store/recipeStore';
+import { initionalRecipe, Recipe, recipeStore } from './store/RecipeStore';
 import { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import RecipeDetails from "./RecipeDetails";

@@ -10,7 +10,6 @@ import {
 import UserProfile from "./UserProfile";
 import { UserContext } from "./UserReducer";
 import axios from "axios";
-import { Title } from "@mui/icons-material";
 
 const boxStyle = {
     position: 'absolute',
@@ -51,7 +50,7 @@ const UserAccses = () => {
         try {
             const res = await axios.post(url + status, myUser)
             console.log('res-login', res);
-
+            console.log(state);
             if (status === 'login')
                 dispatch({
                     type: 'ADD',
@@ -86,7 +85,7 @@ const UserAccses = () => {
             <Modal open={loginOpen} onClose={() => setLoginOpen(false)}>
                 <Box sx={boxStyle} >
                     <Grid container rowSpacing={1} >
-                        
+
                         {/* <Title sx={{ marginBottom: 2 }} >{status === 'login' ? 'Login' : 'SignUp'}</Title> */}
                         <TextField label='Email' type="email" onChange={(e) => { setMyUser({ ...myUser, email: e.target.value }); setMessage('') }} />
                         <TextField label='Password' type="password" onChange={(e) => { setMyUser({ ...myUser, password: e.target.value }); setMessage('') }} />
